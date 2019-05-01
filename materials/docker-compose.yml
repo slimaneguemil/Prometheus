@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+
+  prometheus:
+    image: psmonitoring/prometheus:v2.3.1
+    networks:
+      - app-net
+
+  grafana:
+    image: psmonitoring/grafana:5.2.1
+    networks:
+      - app-net
+
+networks:
+  app-net:
