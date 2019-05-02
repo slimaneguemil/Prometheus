@@ -1,8 +1,9 @@
-FROM grafana/grafana:5.2.1
+FROM grafana/grafana
+EXPOSE 3000
 
-COPY docker/grafana/datasource-prometheus.yaml /etc/grafana/provisioning/datasources/
-COPY docker/grafana/dashboard-provider.yaml /etc/grafana/provisioning/dashboards/
-COPY docker/grafana/ps-monitoring-dashboard.json /var/lib/grafana/dashboards/
+COPY datasource-prometheus.yaml /etc/grafana/provisioning/datasources/
+COPY dashboard-provider.yaml /etc/grafana/provisioning/dashboards/
+COPY ps-monitoring-dashboard.json /var/lib/grafana/dashboards/
 
-COPY docker/grafana/init.sh .
+COPY init.sh .
 RUN ./init.sh
