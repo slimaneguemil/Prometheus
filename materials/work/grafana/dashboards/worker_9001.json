@@ -27,7 +27,7 @@
         "#37872D",
         "#d44a3a"
       ],
-      "datasource": "Prometheus-local",
+      "datasource": "Prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -79,7 +79,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "up{instance=\"localhost:9001\",job=\"demoservice-app\"}",
+          "expr": "up{instance=\"worker_9001:9001\",job=\"demoservice-app\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -114,7 +114,7 @@
         "#37872D",
         "#d44a3a"
       ],
-      "datasource": "Prometheus-local",
+      "datasource": "Prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -166,7 +166,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "up{instance=\"localhost:9000\",job=\"person-app\"}",
+          "expr": "up{instance=\"worker_9001:9000\",job=\"person-app\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -197,7 +197,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus-local",
+      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -229,7 +229,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "jvm_buffer_memory_used_bytes{id=\"direct\",instance=\"localhost:9000\",job=\"person-app\"}",
+          "expr": "jvm_buffer_memory_used_bytes{id=\"direct\",instance=\"worker_9001:9000\",job=\"person-app\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -237,7 +237,7 @@
           "refId": "A"
         },
         {
-          "expr": "jvm_buffer_memory_used_bytes{id=\"direct\",instance=\"localhost:9001\",job=\"demoservice-app\"}",
+          "expr": "jvm_buffer_memory_used_bytes{id=\"direct\",instance=\"worker_9001:9001\",job=\"demoservice-app\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -295,7 +295,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Prometheus-local",
+      "datasource": "Prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -455,7 +455,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus-local",
+      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
