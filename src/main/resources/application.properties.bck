@@ -1,0 +1,33 @@
+# Server configurations.										
+server.port=9001
+logging.level.com.satish.monitoring=debug
+logging.file=logs/monitoring.log
+management.application.name=demoservice
+
+#Metrics related configurations
+endpoints.default.enabled=true
+management.endpoint.metrics.enabled=true
+#management.endpoints.web.exposure.include=*
+management.endpoint.prometheus.enabled=true
+management.metrics.export.prometheus.enabled=true
+
+management.endpoints.web.expose=*
+
+#management.endpoints.web.exposure.include=prometheus,info,health
+
+management.endpoints.web.exposure.exclude=health,info,env,metrics,httptrace,threaddump,heapdump,springmetrics
+management.endpoints.web.exposure.include=prometheus
+
+spring.metrics.web.server_requests.name=test
+#management.metrics.distribution.sla.demoservice.mytask.duration= 5,ms, 10ms, 25ms, 50ms, 100ms
+#management.metrics.distribution.percentiles.all= 0.5, 0.75, 0.95, 0.98, 0.99, 0.999, 1.0
+
+management.metrics.enable.root=false
+management.metrics.enable.jvm=false
+management.metrics.enable.http=false
+#management.metrics.distribution.percentiles-histogram.http.server.requests=true
+management.metrics.distribution.sla.http.server.requests=1ms,5ms
+management.metrics.distribution.sla.demoservice.mytask.duration2=1ms,5ms
+management.metrics.distribution.percentiles.demoservice.mytask.duration2= 0.5, 0.75, 0.95,  1.0
+management.metrics.distribution.percentiles-histogram.demoservice.mytask.duration2=true
+management.metrics.distribution.percentiles-histogram.
