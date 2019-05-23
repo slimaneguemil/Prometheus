@@ -1,0 +1,55 @@
+server:
+  port: 9001
+
+metrics:
+  distribution:
+    percentiles-histogram[http.server.requests]: true
+    percentiles:
+      http.server.requests: 0.95, 0.99
+    sla:
+      http.server.requests: 10ms, 100ms
+
+
+management:
+  endpoints:
+    metrics.enabled: true
+    web:
+      exposure:
+        exclude: health,info,env,metrics,httptrace,threaddump,heapdump,springmetrics
+        include: prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      region: us-east-1
+      stack: prod
+    enable:
+      ["demoservice"]: false
+      tomcat: false
+      http: false
+      jvm: false
+      logback: true
+      help: false
+      process: false
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+    distribution:
+      sla:
+        all: 10ms, 100ms
+        demoservice-timer2: 500ms,1000ms,1500ms,2000ms
+        demoservice-timer3: 500ms,1000ms,1500ms,2000ms
+        "[demoservice.mytask.duration2]": 10ms,100ms
+        demoservice.mytask.duration2: 10ms,100ms
+        http.server.requests: 10ms, 100ms
+      percentiles:
+        demoservice.mytask.duration2: 0.5, 0.75, 0.95,  1.0
+        demoservice-timer2: 0.5, 0.75, 0.95, 0.99, 1.0
+        demoservice-timer3: 0.5, 0.75, 0.95,  1.0
+      percentiles-histogram.demoservice.mytask.duration2: true
+
+endpoints.default.enabled: true
+
+
