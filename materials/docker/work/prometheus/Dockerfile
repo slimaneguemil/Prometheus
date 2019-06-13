@@ -1,3 +1,3 @@
 FROM prom/prometheus:v2.9.2
-ADD ./config.yml /etc/prometheus/config.yml
+ADD config.yml /etc/prometheus/config.yml
 CMD [ "--config.file=/etc/prometheus/config.yml" ] 
