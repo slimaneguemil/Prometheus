@@ -89,7 +89,7 @@ public class RunMe implements CommandLineRunner {
             Stopwatch stopwatch = Stopwatch.createStarted(); // (guava stopwatch)
             intenseCalculation();
             Long t =stopwatch.stop().elapsed(TimeUnit.NANOSECONDS);
-            LOGGER.info("timer= "+ t);
+            //LOGGER.info("timer= "+ t);
                 //sleep(1000);
                 beat1.increment(.5);
                 beat2.increment(1);

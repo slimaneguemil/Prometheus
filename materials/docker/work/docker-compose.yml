@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+
+  # Prometheus uses the image resulting form the build
+  # of `./prometheus` which simply packs some configuration
+  # into the form of an image.
+  #
+  # It could instead, use volume-mounts.
+  prometheus:
+    build: './prometheus'
+    container_name: 'prometheus'
+    ports:
+      - '9090:9090'
+    networks:
+      - app-net
+
+  # The grafana container uses the image resulting from the build
+  # of `./grafana` which simply packs some configuration into the
+  # form of an image.
+  #
+  # This could instead be a volume-mounted container.
+  grafana:
+    build: './grafana'
+    container_name: 'grafana'
+    ports:
+      - '3000:3000'
+    networks:
+      - app-net
+
+  worker:
+    build: './worker'
+    container_name: 'worker_9001'
+    ports:
+      - '9001:9001'
+    networks:
+      - app-net
+
+networks:
+  app-net:
