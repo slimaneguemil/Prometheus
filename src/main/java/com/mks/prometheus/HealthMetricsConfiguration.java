@@ -27,7 +27,7 @@ class HealthMetricsConfiguration {
         }
 
         // presumes there is a common tag applied elsewhere that adds tags for app, etc.
-        registry.gauge("health", emptyList(), healthIndicator, health -> {
+        registry.gauge("demoservice_health", emptyList(), healthIndicator, health -> {
             Status status = health.health().getStatus();
             switch (status.getCode()) {
                 case "UP":

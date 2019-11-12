@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -26,16 +29,13 @@ import static java.lang.Thread.sleep;
 @Configuration
 public class RunMe implements CommandLineRunner {
     private final Counter beat1 , beat2 ;
-    private final Gauge sessionGauge;
-    private final Summary responseTimeInMs;
-    private final Summary requestLatencyS;
     private final static Logger LOGGER= LoggerFactory.getLogger(RunMe.class);
     private static SimpleTimer timer;
     Timer timer2, timer3 ;
+    private final WebClient webClient;
 
-    final Histogram requestLatency;
-    public RunMe(MeterRegistry registry) {
-
+    public RunMe(MeterRegistry registry, WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("https://localhost:9001").build();
         this.timer2 = registry.timer("demoservice-timer2",
                 "eventType", "test",
                 "result", "perf1");
@@ -48,11 +48,6 @@ public class RunMe implements CommandLineRunner {
                         Duration.ofMillis(5000))
                 .register(registry);
 
-        this.sessionGauge = Gauge.build()
-                .name("demoservice_activeSessions")
-                .help("Count")
-                .labelNames("host")
-                .register();
 
         this.beat1 = Counter
                 .builder("demoservice_heartbeat_beat1")
@@ -66,29 +61,7 @@ public class RunMe implements CommandLineRunner {
                 .register(registry);
 
 
-       this.responseTimeInMs = Summary
-                .build()
-                .name("demoservice_response_time_milliseconds")
-                .labelNames("method", "handler", "status")
-                .help("Request completed time in milliseconds")
-                .maxAgeSeconds(120)
-                .ageBuckets(2)
-                .quantile(0.5, 0.05)
-                .quantile(0.95, 0.05)
-                .quantile(0.99, 0.05)
-                .register();
 
-         this.requestLatencyS = Summary.build()
-                .name("ws_requests_latency_seconds_summary")
-                .quantile(0, 0.0)   // Add 10th percentile with 1% tolerated error
-                .quantile(0.25, 0.0)   // Add 10th percentile with 1% tolerated error
-                .quantile(0.5, 0.05)   // Add 50th percentile (= median) with 5% tolerated error
-                .quantile(0.75, 0.0)   // Add 90th percentile with 1% tolerated error
-                .quantile(1, 0.0)   // Add 90th percentile with 1% tolerated error
-                .help("Request latency in seconds.").register();
-
-        this.requestLatency = Histogram.build()
-                .name("demoservice_latency").help("Request latency in seconds.").register();
     }
     @Scheduled(cron = "${scheduled.job.time}")
     public void run(){
@@ -107,6 +80,7 @@ public class RunMe implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        final String uri = "http://localhost:9001/hello";
 
 
         while(true){
@@ -123,6 +97,15 @@ public class RunMe implements CommandLineRunner {
             timer2.record(Duration.ofNanos(t));
             timer3.record(Duration.ofNanos(t));
 
+
+//            RestTemplate restTemplate = new RestTemplate();
+//            String result = restTemplate.getForObject(uri, String.class);
+//            LOGGER.info("get /hello = "+ result);
+
+//            Mono<String> result2 = this.webClient.get().uri("/hello")
+//                    .retrieve().bodyToMono(String.class);
+
+//            result2.subscribe(System.out::println);
             }
         }
 
